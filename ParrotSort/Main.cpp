@@ -55,6 +55,7 @@ public:
             index = (index + 1) % length;
         }
 
+        // TODO: parrotが重なるとどちらもつかめてしまう
         if (rect.leftPressed())
         {
             rect.pos = Cursor::Pos() - rect.size / 2;
@@ -103,6 +104,7 @@ public:
 
 void Main()
 {
+    // TODO: よりおおくのparrotを生成
     Parrot black(U"parrots/black/black", RandomPoint(Scene::Rect())),
         pink(U"parrots/pink/pink", RandomPoint(Scene::Rect()));
     
@@ -116,4 +118,8 @@ void Main()
         black.update();
         pink.update();
     }
+
+    // TODO: parrotをしまっておく領域を追加
+    // TODO: 40を超えたら計算
+    // TODO: 爆発処理
 }
