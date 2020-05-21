@@ -26,13 +26,12 @@ class Parrot
 {
     Array<Texture> parrots;
     const int length = 10;
-    const int size = 64;
     int index = 0;
     Counter counter{ 6 };
     
 public:
-    Vec2 pos;
     Vec2 velocity;
+    RectF rect;
 
 
 public:
@@ -43,7 +42,7 @@ public:
             parrots.push_back(Texture(Format(path, i, U".png")));
         }
 
-        this->pos = pos;
+        rect = RectF(pos, 64);
         this->velocity = Vec2(Random(-1.0, 1.0), Random(-1.0, 1.0));
     }
 
@@ -56,18 +55,44 @@ public:
             index = (index + 1) % length;
         }
 
-        pos.moveBy(velocity * Scene::DeltaTime() * 300);
-
-
-        if (pos.x <= 0 || pos.x + size >= Scene::Width())
+        if (rect.leftPressed())
         {
-            velocity.x *= -1;
+            rect.pos = Cursor::Pos() - rect.size / 2;
+        }
+        else
+        {
+            rect.pos.moveBy(velocity * Scene::DeltaTime() * 100);
         }
 
-        if (pos.y <= 0 || pos.y + size >= Scene::Height())
+        bool isLeft = rect.tl().x <= 0,
+            isRight = rect.br().x >= Scene::Width(),
+            isTop = rect.tl().y <= 0,
+            isBottom = rect.br().y >= Scene::Height();
+ 
+
+        if (rect.leftPressed())
         {
-            velocity.y *= -1;
+            if (isLeft) rect.pos.x = 1;
+            if (isTop) rect.pos.y = 1;
+
+            if (isRight) rect.pos.x = Scene::Width() - rect.size.x - 1;
+            if (isBottom) rect.pos.y = Scene::Height() - rect.size.y - 1;
         }
+        else
+        {
+            if (isLeft || isRight)
+            {
+                velocity.x *= -1;
+
+            }
+
+            if (isTop || isBottom)
+            {
+                velocity.y *= -1;
+            }
+        }
+
+        rect.drawFrame();
     }
 
     Texture current()
@@ -83,13 +108,11 @@ void Main()
     
     Scene::SetBackground(Palette::Gray);
 
-    Point size{ 64, 64 };
-
     while (System::Update())
     {
-        black.current().resized(size).draw(black.pos);
-        pink.current().resized(size).draw(pink.pos);
-
+        black.rect(black.current()).draw();
+        pink.rect(pink.current()).draw();
+        
         black.update();
         pink.update();
     }
