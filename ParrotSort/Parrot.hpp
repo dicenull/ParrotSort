@@ -8,17 +8,15 @@ class Parrot
     const int length = 10;
     int index = 0;
     Counter counter{ 6 };
-
-public:
-    Vec2 velocity;
     RectF rect;
-    ParrotColor colorType;
+    Array<Texture> textures;
+    Vec2 velocity;
 
 public:
     Parrot() {}
 
-    Parrot(Point pos, ParrotColor color)
-        : rect(RectF(pos, 64)), colorType(color) { }
+    Parrot(Point pos, Array<Texture> textures)
+        : rect(RectF(pos, 64)), textures(textures), velocity(Vec2(Random(-1.0, 1.0), Random(-1.0, 1.0))) { }
 
     Parrot& operator=(const Parrot& obj)
     {
@@ -77,11 +75,11 @@ public:
 
 
         // TODO: debug
-        rect.drawFrame();
+        // rect.drawFrame();
     }
 
-    int current()
+    void draw()
     {
-        return index;
+        rect(textures[index]).draw();
     }
 };

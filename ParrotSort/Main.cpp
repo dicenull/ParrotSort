@@ -14,12 +14,22 @@ void Main()
     {
         manager.generate(ParrotColor(Random(1)));
     }
+    
+    bool start = false;
 
     while (System::Update())
     {
-        manager.draw();
+        if (start)
+        {
+            manager.draw();
 
-        manager.update();
+            manager.update();
+        }
+
+        if (KeySpace.down())
+        {
+            start = true;
+        }
     }
 
     // TODO: parrotをしまっておく領域を追加

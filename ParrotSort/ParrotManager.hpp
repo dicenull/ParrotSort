@@ -14,27 +14,18 @@ public:
 
 	void generate(ParrotColor type)
 	{
-		Parrot newParrot;
-		Point point = RandomPoint(Scene::Rect());
-
-		parrots.push_back(Parrot(point, type));
+		Point point = Point(Scene::Width() / 2, 100);
+			
+		parrots.push_back(Parrot(point, type == ParrotColor::Pink 
+			? _pink.parrotTextures 
+			: _black.parrotTextures));
 	}
 
 	void draw()
 	{
 		for (auto& parrot : parrots)
 		{
-			ParrotData data;
-			if (parrot.colorType == ParrotColor::Pink)
-			{
-				data = _pink;
-			}
-			else
-			{
-				data = _black;
-			}
-
-			parrot.rect(data.parrotTextures[parrot.current()]).draw();
+			parrot.draw();
 		}
 	}
 
