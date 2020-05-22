@@ -2,5 +2,5 @@
 
 enum class ParrotColor
 {
-	Pink, Black,
+	Pink, Black, Default,
 };

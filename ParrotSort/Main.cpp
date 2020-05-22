@@ -10,6 +10,8 @@ void Main()
     
     Scene::SetBackground(Palette::Gray);
 
+    
+    manager.generate(ParrotColor::Default);
     for (auto i : step(100))
     {
         manager.generate(ParrotColor(Random(1)));
