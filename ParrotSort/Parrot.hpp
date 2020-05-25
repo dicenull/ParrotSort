@@ -8,9 +8,12 @@ class Parrot
     const int length = 10;
     int index = 0;
     Counter counter{ 6 };
-    RectF rect;
     Array<Texture> textures;
     Vec2 velocity;
+
+public:
+    RectF rect;
+    bool hold = false;
 
 public:
     Parrot() {}
@@ -26,6 +29,16 @@ public:
         return *this;
     }
 
+    void flipY()
+    {
+        velocity.y *= -1;
+    }
+
+    void flipX()
+    {
+        velocity.x *= -1;
+    }
+
     void update()
     {
         counter.increment();
@@ -35,8 +48,7 @@ public:
             index = (index + 1) % length;
         }
 
-        // TODO: parrotÇ™èdÇ»ÇÈÇ∆Ç«ÇøÇÁÇ‡Ç¬Ç©ÇﬂÇƒÇµÇ‹Ç§
-        if (rect.leftPressed())
+        if (hold)
         {
             rect.pos = Cursor::Pos() - rect.size / 2;
         }
@@ -50,8 +62,7 @@ public:
             isTop = rect.tl().y <= 0,
             isBottom = rect.br().y >= Scene::Height();
 
-
-        if (rect.leftPressed())
+        if (hold)
         {
             if (isLeft) rect.pos.x = 1;
             if (isTop) rect.pos.y = 1;
@@ -63,19 +74,18 @@ public:
         {
             if (isLeft || isRight)
             {
-                velocity.x *= -1;
-
+                flipX();
             }
 
             if (isTop || isBottom)
             {
-                velocity.y *= -1;
+                flipY();
             }
         }
 
 
         // TODO: debug
-        // rect.drawFrame();
+        rect.drawFrame();
     }
 
     void draw()
