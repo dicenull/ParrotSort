@@ -105,6 +105,9 @@
     <ClCompile Include="ParrotManager.hpp">
       <Filter>Header Files</Filter>
     </ClCompile>
+    <ClCompile Include="ParrotBuilder.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Image Include="App\icon.ico">
@@ -389,6 +392,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="ParrotColor.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ParrotContainer.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

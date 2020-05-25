@@ -1,19 +1,23 @@
 ﻿# include <Siv3D.hpp>
 #include "Parrot.hpp"
 #include "ParrotManager.hpp"
+#include "ParrotBuilder.cpp"
 
 
 void Main()
 {
     // TODO: よりおおくのparrotを生成
     ParrotManager manager{};
+    auto builder = ParrotBuilder::instance();
     
     Scene::SetBackground(Palette::Gray);
 
-    manager.generate(ParrotColor::Default);
+    Point point = Point(Scene::Width() / 2, 150);
+    
+    manager.add(builder.generate(ParrotColor::Default, point));
     for (auto i : step(10))
     {
-        manager.generate(ParrotColor(Random(1)));
+        manager.add(builder.generate(ParrotColor(Random(1)), point));
     }
 
     bool start = false;
