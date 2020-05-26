@@ -8,19 +8,15 @@ void Main()
 {
     // TODO: よりおおくのparrotを生成
     ParrotManager manager{};
+    Stopwatch sw;
     auto builder = ParrotBuilder();
     
     Scene::SetBackground(Palette::Gray);
 
     Point point = Point(Scene::Width() / 2, 150);
     
-    manager.add(builder.generate(ParrotColor::Default, point));
-    for (auto i : step(10))
-    {
-        manager.add(builder.generate(ParrotColor(Random(1)), point));
-    }
-
     bool start = false;
+    int flip = 0;
 
     const auto size = Size(200, 200);
     const auto padding = Point(10, 200);
@@ -32,6 +28,15 @@ void Main()
         if (KeySpace.down())
         {
             start = true;
+            sw.start();
+        }
+
+        if (sw.ms() >= 2000)
+        {
+            manager.add(builder.generate((ParrotColor)Random(flip), point));
+
+            flip = 1 - flip;
+            sw.restart();
         }
 
         if (start)

@@ -24,6 +24,11 @@ public:
 
 	void update()
 	{
+		if (parrots.size() >= 5)
+		{
+			parrots.clear();
+		}
+
 		for (auto& parrot : parrots)
 		{
 			parrot.update();
@@ -39,7 +44,6 @@ public:
 			{
 				parrot.flipX();
 			}
-
 		}
 	}
 
