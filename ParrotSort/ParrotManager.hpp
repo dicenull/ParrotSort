@@ -57,7 +57,7 @@ public:
 		}
 	}
 
-	void checkArea(ParrotContainer container)
+	void checkArea(ParrotContainer& container)
 	{
 		auto& area = container.area;
 		
@@ -81,6 +81,7 @@ public:
 		{
 			if (MouseL.up() && area.contains(it->rect))
 			{
+				container.store(*it);
 				parrots.erase(it);
 				break;
 			}

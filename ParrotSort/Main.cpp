@@ -43,7 +43,10 @@ void Main()
 
             manager.checkArea(pink_container);
             manager.checkArea(black_container);
+
             manager.update();
+            pink_container.update();
+            black_container.update();
         }
     }
 

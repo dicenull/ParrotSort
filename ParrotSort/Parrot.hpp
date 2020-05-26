@@ -15,6 +15,7 @@ class Parrot
 public:
     RectF rect;
     bool hold = false;
+    bool canHold = true;
     int serial;
 
 public:
@@ -58,7 +59,7 @@ public:
             index = (index + 1) % textures.size();
         }
 
-        if (hold)
+        if (canHold && hold)
         {
             rect.pos = Cursor::Pos() - rect.size / 2;
         }
@@ -72,7 +73,7 @@ public:
             isTop = rect.tl().y <= 0,
             isBottom = rect.br().y >= Scene::Height();
 
-        if (hold)
+        if (canHold && hold)
         {
             if (isLeft) rect.pos.x = 1;
             if (isTop) rect.pos.y = 1;
