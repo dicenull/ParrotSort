@@ -109,7 +109,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp" />
-    <ClCompile Include="ParrotBuilder.cpp" />
+    <ClCompile Include="Parrot.cpp" />
     <ClCompile Include="ParrotManager.hpp" />
   </ItemGroup>
   <ItemGroup>
@@ -239,6 +239,7 @@
   <ItemGroup>
     <ClInclude Include="Counter.hpp" />
     <ClInclude Include="Parrot.hpp" />
+    <ClInclude Include="ParrotBuilder.hpp" />
     <ClInclude Include="ParrotColor.h" />
     <ClInclude Include="ParrotContainer.hpp" />
     <ClInclude Include="ParrotData.hpp" />

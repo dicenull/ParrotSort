@@ -5,7 +5,8 @@
 
 class Parrot
 {
-    const int length = 10;
+    static int serial_gen;
+
     int index = 0;
     Counter counter{ 6 };
     Array<Texture> textures;
@@ -14,19 +15,28 @@ class Parrot
 public:
     RectF rect;
     bool hold = false;
+    int serial;
 
 public:
-    Parrot() {}
+    Parrot() : serial(serial_gen++) {}
 
     Parrot(Point pos, Array<Texture> textures)
-        : rect(RectF(pos, 64)), textures(textures), velocity(Vec2(Random(-1.0, 1.0), Random(-1.0, 1.0))) { }
-
-    Parrot& operator=(const Parrot& obj)
+        : rect(RectF(pos, 64)),
+        textures(textures),
+        velocity(Vec2(Random(-1.0, 1.0), Random(-1.0, 1.0))),
+        serial(serial_gen++) { }
+    
+    ~Parrot()
     {
-        index = obj.index;
-        counter.count = obj.counter.count;
-        
-        return *this;
+        for (auto& tex : textures)
+        {
+            tex.release();
+        }
+    }
+
+    bool operator==(const Parrot& obj)
+    {
+        return obj.serial == serial;
     }
 
     void flipY()
@@ -45,7 +55,7 @@ public:
 
         if (counter.isRefresh())
         {
-            index = (index + 1) % length;
+            index = (index + 1) % textures.size();
         }
 
         if (hold)

@@ -1,14 +1,14 @@
 ﻿# include <Siv3D.hpp>
 #include "Parrot.hpp"
 #include "ParrotManager.hpp"
-#include "ParrotBuilder.cpp"
+#include "ParrotBuilder.hpp"
 
 
 void Main()
 {
     // TODO: よりおおくのparrotを生成
     ParrotManager manager{};
-    auto builder = ParrotBuilder::instance();
+    auto builder = ParrotBuilder();
     
     Scene::SetBackground(Palette::Gray);
 
@@ -24,8 +24,8 @@ void Main()
 
     const auto size = Size(200, 200);
     const auto padding = Point(10, 200);
-    Rect pink_area{ padding, size };
-    Rect black_area{ Point(Scene::Width() - padding.x - size.x, padding.y), size };
+    ParrotContainer pink_container({ padding, size }, Palette::Pink);
+    ParrotContainer black_container({ Point(Scene::Width() - padding.x - size.x, padding.y), size }, Palette::Darkgray);
 
     while (System::Update())
     {
@@ -36,15 +36,14 @@ void Main()
 
         if (start)
         {
-            pink_area.draw(Palette::Pink);
-            black_area.draw(Palette::Darkgray);
-
+            pink_container.draw();
+            black_container.draw();
+            
             manager.draw();
 
+            manager.checkArea(pink_container);
+            manager.checkArea(black_container);
             manager.update();
-
-            manager.checkArea(pink_area);
-            manager.checkArea(black_area);
         }
     }
 

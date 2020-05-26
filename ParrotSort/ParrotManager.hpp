@@ -3,12 +3,24 @@
 #include "Parrot.hpp"
 #include "ParrotData.hpp"
 #include "ParrotColor.h"
+#include "ParrotContainer.hpp"
 
 class ParrotManager
 {
 	Array<Parrot> parrots;
+	const Font font{ 16 };
 	
 	bool prev_hold = false;
+
+	void clearHold()
+	{
+		for (auto& parrot : parrots)
+		{
+			parrot.hold = false;
+		}
+
+		prev_hold = false;
+	}
 
 public:
 	void add(Parrot parrot)
@@ -18,9 +30,11 @@ public:
 	
 	void draw()
 	{
-		for (auto& parrot : parrots)
+		for(auto i = 0;i < parrots.size();i++)
+		// for (auto& parrot : parrots)
 		{
-			parrot.draw();
+			parrots[i].draw();
+			font(i).draw(parrots[i].rect.pos);
 		}
 	}
 
@@ -28,12 +42,7 @@ public:
 	{
 		if (MouseL.up())
 		{
-			for (auto& parrot : parrots)
-			{
-				parrot.hold = false;
-			}
-
-			prev_hold = false;
+			clearHold();
 		}
 
 		for (auto& parrot : parrots)
@@ -48,20 +57,32 @@ public:
 		}
 	}
 
-	void checkArea(Rect rect)
+	void checkArea(ParrotContainer container)
 	{
-		for (auto& parrot : parrots)
+		auto& area = container.area;
+		
+		// ‚Ô‚Â‚©‚Á‚Ä‚¢‚½‚ç”½“]
+		for(auto& parrot : parrots)
 		{
-			if (rect.top().intersects(parrot.rect)
-				|| rect.bottom().intersects(parrot.rect))
+			if (area.top().intersects(parrot.rect)
+				|| area.bottom().intersects(parrot.rect))
 			{
 				parrot.flipY();
 			}
 
-			if (rect.left().intersects(parrot.rect)
-				|| rect.right().intersects(parrot.rect))
+			if (area.left().intersects(parrot.rect)
+				|| area.right().intersects(parrot.rect))
 			{
 				parrot.flipX();
+			}
+		}
+
+		for (auto it = parrots.begin(); it != parrots.end(); ++it)
+		{
+			if (MouseL.up() && area.contains(it->rect))
+			{
+				parrots.erase(it);
+				break;
 			}
 		}
 	}
