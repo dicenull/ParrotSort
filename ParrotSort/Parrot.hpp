@@ -9,9 +9,10 @@ class Parrot
 
     int index = 0;
     int speed = 50;
+    int normalSize = 55;
     
     Counter counter{ 6 };
-    Array<Texture> textures, rainbows;
+    Array<Texture> textures;
     Vec2 velocity;
 
     Stopwatch dangerSw;
@@ -28,12 +29,8 @@ public:
     Parrot() : serial(serial_gen++) {}
 
     Parrot(Point pos, Array<Texture> textures)
-        : Parrot(pos, textures, textures) { }
-
-    Parrot(Point pos, Array<Texture> textures, Array<Texture> rainbows)
-        : rect(RectF(pos, 64)),
+        : rect(RectF(pos, normalSize)),
         textures(textures),
-        rainbows(rainbows),
         serial(serial_gen++)
     {
         auto rnd_rad = ToRadians(Random(360));
@@ -65,11 +62,26 @@ public:
         velocity.x *= -1;
     }
 
+    void caught()
+    {
+        dangerSw.reset();
+        rect.setSize(normalSize);
+
+        if (!isNormal)
+        {
+            isNormal = true;
+        }
+    }
+
+    void changeTexture(Array<Texture> newTex)
+    {
+        textures = newTex;
+    }
+
     void update()
     {
         if(isNormal && dangerSw.s() > 5)
         {
-            textures.swap(rainbows);
             isNormal = false;
         }
 
@@ -78,11 +90,9 @@ public:
             isBomb = true;
         }
 
-        counter.increment();
-
-        if (counter.isRefresh())
+        if (!isNormal)
         {
-            index = (index + 1) % textures.size();
+            rect.setSize(normalSize + 30 * Periodic::Sine0_1(500ms));
         }
 
         if (canHold && hold)
@@ -127,6 +137,13 @@ public:
 
     void draw()
     {
+        counter.increment();
+
+        if (counter.isRefresh())
+        {
+            index = (index + 1) % textures.size();
+        }
+
         rect(textures[index]).draw();
     }
 };

@@ -5,6 +5,7 @@ class ParrotContainer
 {
 	Color color;
 	Array<Parrot> parrots;
+	const int size = 5;
 
 public:
 	Rect area;
@@ -22,11 +23,13 @@ public:
 		}
 	}
 
-	void update()
+	int update()
 	{
-		if (parrots.size() >= 5)
+		if (parrots.size() >= size)
 		{
 			parrots.clear();
+
+			return size;
 		}
 
 		for (auto& parrot : parrots)
@@ -45,6 +48,8 @@ public:
 				parrot.flipX();
 			}
 		}
+
+		return 0;
 	}
 
 	void store(const Parrot& parrot)

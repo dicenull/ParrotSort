@@ -64,6 +64,14 @@ public:
 		return false;
 	}
 
+	void gameover(Array<Texture> rainbows)
+	{
+		for (auto& parrot : parrots)
+		{
+			parrot.changeTexture(rainbows);
+		}
+	}
+
 	void checkArea(ParrotContainer& container)
 	{
 		auto& area = container.area;
@@ -84,10 +92,12 @@ public:
 			}
 		}
 
+		// ’†‚Å˜b‚³‚ê‚½‚çŠi”[
 		for (auto it = parrots.begin(); it != parrots.end(); ++it)
 		{
 			if (MouseL.up() && area.contains(it->rect))
 			{
+				it->caught();
 				container.store(*it);
 				parrots.erase(it);
 				break;
