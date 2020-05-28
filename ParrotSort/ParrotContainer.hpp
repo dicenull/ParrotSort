@@ -9,9 +9,23 @@ class ParrotContainer
 
 public:
 	Rect area;
+	ParrotColor colorType;
 
-	ParrotContainer(Rect rect, Color color) : area(rect), color(color)
-	{ }
+	ParrotContainer(Rect rect, ParrotColor type) : area(rect), colorType(type)
+	{
+		switch (type)
+		{
+		case ParrotColor::Pink:
+			color = Palette::Pink;
+			break;
+		case ParrotColor::Black:
+			color = Palette::Darkgray;
+			break;
+		case ParrotColor::Default:
+			color = Palette::White;
+			break;
+		}
+	}
 
 	void draw()
 	{

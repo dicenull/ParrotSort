@@ -15,11 +15,11 @@ public:
 		switch (color)
 		{
 		case ParrotColor::Default:
-			return Parrot(pos, Default.parrotTextures);
+			return Parrot(pos, Default.parrotTextures, color);
 		case ParrotColor::Pink:
-			return Parrot(pos, _pink.parrotTextures);
+			return Parrot(pos, _pink.parrotTextures, color);
 		case ParrotColor::Black:
-			return Parrot(pos, _black.parrotTextures);
+			return Parrot(pos, _black.parrotTextures, color);
 		}
 	}
 };

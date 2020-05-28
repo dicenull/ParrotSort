@@ -13,6 +13,7 @@ class Parrot
     
     Counter counter{ 6 };
     Array<Texture> textures;
+
     Vec2 velocity;
 
     Stopwatch dangerSw;
@@ -25,12 +26,15 @@ public:
     bool isBomb = false;
     int serial;
 
+    ParrotColor colorType;
+
 public:
     Parrot() : serial(serial_gen++) {}
 
-    Parrot(Point pos, Array<Texture> textures)
+    Parrot(Point pos, Array<Texture> textures, ParrotColor type)
         : rect(RectF(pos, normalSize)),
         textures(textures),
+        colorType(type),
         serial(serial_gen++)
     {
         auto rnd_rad = ToRadians(Random(360));

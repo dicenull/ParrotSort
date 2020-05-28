@@ -22,8 +22,8 @@ void Main()
 
     const auto size = Size(200, 200);
     const auto padding = Point(10, 200);
-    ParrotContainer pink_container({ padding, size }, Palette::Pink);
-    ParrotContainer black_container({ Point(Scene::Width() - padding.x - size.x, padding.y), size }, Palette::Darkgray);
+    ParrotContainer pink_container({ padding, size }, ParrotColor::Pink);
+    ParrotContainer black_container({ Point(Scene::Width() - padding.x - size.x, padding.y), size }, ParrotColor::Black);
 
     Font mainFont{ 50 }, statFont{ 30 };
 
@@ -45,10 +45,15 @@ void Main()
                 sw.restart();
             }
 
-            manager.checkArea(pink_container);
-            manager.checkArea(black_container);
+            bool wrong = false;
+            wrong |= manager.checkArea(pink_container);
+            wrong |= manager.checkArea(black_container);
+            if (wrong)
+            {
+                gameover = true;
+            }
 
-            gameover = manager.update();
+            gameover |= manager.update();
 
             int point = 0;
             point += pink_container.update();
@@ -57,6 +62,7 @@ void Main()
             if (point > 0)
             {
                 // TODO: 得点追加のアクション
+                sum += point;
             }
 
             if (gameover)

@@ -72,7 +72,7 @@ public:
 		}
 	}
 
-	void checkArea(ParrotContainer& container)
+	bool checkArea(ParrotContainer& container)
 	{
 		auto& area = container.area;
 		
@@ -97,11 +97,19 @@ public:
 		{
 			if (MouseL.up() && area.contains(it->rect))
 			{
+				if (it->colorType != container.colorType)
+				{
+					return true;
+				}
+
+
 				it->caught();
 				container.store(*it);
 				parrots.erase(it);
 				break;
 			}
 		}
+
+		return false;
 	}
 };
