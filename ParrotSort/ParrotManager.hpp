@@ -38,7 +38,7 @@ public:
 		}
 	}
 
-	void update()
+	bool update()
 	{
 		if (MouseL.up())
 		{
@@ -54,7 +54,14 @@ public:
 				parrot.hold = true;
 				prev_hold = true;
 			}
+
+			if (parrot.isBomb)
+			{
+				return true;
+			}
 		}
+
+		return false;
 	}
 
 	void checkArea(ParrotContainer& container)

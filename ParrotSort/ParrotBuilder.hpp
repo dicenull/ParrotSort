@@ -15,9 +15,9 @@ public:
 		case ParrotColor::Default:
 			return Parrot(pos, _default.parrotTextures);
 		case ParrotColor::Pink:
-			return Parrot(pos, _pink.parrotTextures);
+			return Parrot(pos, _pink.parrotTextures, _default.parrotTextures);
 		case ParrotColor::Black:
-			return Parrot(pos, _black.parrotTextures);
+			return Parrot(pos, _black.parrotTextures, _default.parrotTextures);
 		}
 	}
 };

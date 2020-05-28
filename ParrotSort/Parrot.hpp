@@ -9,26 +9,37 @@ class Parrot
 
     int index = 0;
     int speed = 50;
+    
     Counter counter{ 6 };
-    Array<Texture> textures;
+    Array<Texture> textures, rainbows;
     Vec2 velocity;
+
+    Stopwatch dangerSw;
+    bool isNormal = true;
 
 public:
     RectF rect;
     bool hold = false;
     bool canHold = true;
+    bool isBomb = false;
     int serial;
 
 public:
     Parrot() : serial(serial_gen++) {}
 
     Parrot(Point pos, Array<Texture> textures)
+        : Parrot(pos, textures, textures) { }
+
+    Parrot(Point pos, Array<Texture> textures, Array<Texture> rainbows)
         : rect(RectF(pos, 64)),
         textures(textures),
-        serial(serial_gen++) 
+        rainbows(rainbows),
+        serial(serial_gen++)
     {
         auto rnd_rad = ToRadians(Random(360));
         velocity = Vec2(Math::Cos(rnd_rad), Math::Sin(rnd_rad));
+
+        dangerSw.start();
     }
     
     ~Parrot()
@@ -56,6 +67,17 @@ public:
 
     void update()
     {
+        if(isNormal && dangerSw.s() > 5)
+        {
+            textures.swap(rainbows);
+            isNormal = false;
+        }
+
+        if (!isNormal && dangerSw.s() > 10)
+        {
+            isBomb = true;
+        }
+
         counter.increment();
 
         if (counter.isRefresh())

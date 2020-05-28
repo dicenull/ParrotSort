@@ -16,12 +16,15 @@ void Main()
     Point point = Point(Scene::Width() / 2, 150);
     
     bool start = false;
+    bool gameover = false;
     int flip = 0;
 
     const auto size = Size(200, 200);
     const auto padding = Point(10, 200);
     ParrotContainer pink_container({ padding, size }, Palette::Pink);
     ParrotContainer black_container({ Point(Scene::Width() - padding.x - size.x, padding.y), size }, Palette::Darkgray);
+
+    Font mainFont{ 50 };
 
     while (System::Update())
     {
@@ -31,27 +34,42 @@ void Main()
             sw.start();
         }
 
-        if (sw.ms() >= 2000)
+        if (start && !gameover)
         {
-            manager.add(builder.generate((ParrotColor)Random(flip), point));
+            if (sw.ms() >= 2000)
+            {
+                manager.add(builder.generate((ParrotColor)Random(flip), point));
 
-            flip = 1 - flip;
-            sw.restart();
-        }
-
-        if (start)
-        {
-            pink_container.draw();
-            black_container.draw();
-            
-            manager.draw();
+                flip = 1 - flip;
+                sw.restart();
+            }
 
             manager.checkArea(pink_container);
             manager.checkArea(black_container);
 
-            manager.update();
+            gameover = manager.update();
             pink_container.update();
             black_container.update();
+        }
+
+        pink_container.draw();
+        black_container.draw();
+        manager.draw();
+
+        // 文字が後ろに隠れてしまうため、描画の後
+        if (gameover)
+        {
+            mainFont(U"Game Over!!").drawAt(Scene::CenterF());
+
+            if (KeyEnter.down())
+            {
+                System::Exit();
+            }
+        }
+
+        if (!start)
+        {
+            mainFont(U"Press [Space] to start!!").drawAt(Scene::CenterF());
         }
     }
 
