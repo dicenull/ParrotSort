@@ -30,11 +30,9 @@ public:
 	
 	void draw()
 	{
-		for(auto i = 0;i < parrots.size();i++)
-		// for (auto& parrot : parrots)
+		for (auto& parrot : parrots)
 		{
-			parrots[i].draw();
-			font(i).draw(parrots[i].rect.pos);
+			parrot.draw();
 		}
 	}
 
@@ -101,7 +99,6 @@ public:
 				{
 					return true;
 				}
-
 
 				it->caught();
 				container.store(*it);

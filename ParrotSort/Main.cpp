@@ -2,22 +2,16 @@
 #include "Parrot.hpp"
 #include "ParrotManager.hpp"
 #include "ParrotBuilder.hpp"
-
+#include "StageController.hpp"
 
 void Main()
 {
     // TODO: よりおおくのparrotを生成
     ParrotManager manager{};
-    Stopwatch sw;
     auto builder = ParrotBuilder();
     
     Scene::SetBackground(Palette::Gray);
 
-    Point pos = Point(Scene::Width() / 2, 150);
-    
-    bool start = false;
-    bool gameover = false;
-    int flip = 0;
     int sum = 0;
 
     const auto size = Size(200, 200);
@@ -25,35 +19,30 @@ void Main()
     ParrotContainer pink_container({ padding, size }, ParrotColor::Pink);
     ParrotContainer black_container({ Point(Scene::Width() - padding.x - size.x, padding.y), size }, ParrotColor::Black);
 
+    StageController stageCon{manager, builder};
+
     Font mainFont{ 50 }, statFont{ 30 };
 
     while (System::Update())
     {
         if (KeySpace.down())
         {
-            start = true;
-            sw.start();
+            stageCon.start();
         }
 
-        if (start && !gameover)
+        if (stageCon.isStart && !stageCon.gameover)
         {
-            if (sw.ms() >= 2000)
-            {
-                manager.add(builder.generate((ParrotColor)Random(flip), pos));
-
-                flip = 1 - flip;
-                sw.restart();
-            }
+            stageCon.update();
 
             bool wrong = false;
             wrong |= manager.checkArea(pink_container);
             wrong |= manager.checkArea(black_container);
             if (wrong)
             {
-                gameover = true;
+                stageCon.gameover = true;
             }
 
-            gameover |= manager.update();
+            stageCon.gameover |= manager.update();
 
             int point = 0;
             point += pink_container.update();
@@ -65,7 +54,7 @@ void Main()
                 sum += point;
             }
 
-            if (gameover)
+            if (stageCon.gameover)
             {
                 manager.gameover(builder.Default.parrotTextures);
             }
@@ -78,7 +67,7 @@ void Main()
         // 文字が後ろに隠れてしまうため、描画の後
         statFont(U"Point: ", sum).draw(Vec2::Zero());
 
-        if (gameover)
+        if (stageCon.gameover)
         {
             mainFont(U"Game Over!!").drawAt(Scene::CenterF());
 
@@ -88,7 +77,7 @@ void Main()
             }
         }
 
-        if (!start)
+        if (!stageCon.isStart)
         {
             mainFont(U"Press [Space] to start!!").drawAt(Scene::CenterF());
         }
