@@ -8,6 +8,7 @@ class Parrot
     static int serial_gen;
 
     int index = 0;
+    int speed = 50;
     Counter counter{ 6 };
     Array<Texture> textures;
     Vec2 velocity;
@@ -24,8 +25,11 @@ public:
     Parrot(Point pos, Array<Texture> textures)
         : rect(RectF(pos, 64)),
         textures(textures),
-        velocity(Vec2(Random(-1.0, 1.0), Random(-1.0, 1.0))),
-        serial(serial_gen++) { }
+        serial(serial_gen++) 
+    {
+        auto rnd_rad = ToRadians(Random(360));
+        velocity = Vec2(Math::Cos(rnd_rad), Math::Sin(rnd_rad));
+    }
     
     ~Parrot()
     {
@@ -65,7 +69,7 @@ public:
         }
         else
         {
-            rect.pos.moveBy(velocity * Scene::DeltaTime() * 100);
+            rect.pos.moveBy(velocity * Scene::DeltaTime() * speed);
         }
 
         bool isLeft = rect.tl().x <= 0,
