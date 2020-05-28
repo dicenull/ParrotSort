@@ -72,6 +72,13 @@ public:
 				next();
 			}
 			break;
+		case 3:
+			if (sw.ms() > 1000)
+			{
+				generate(flip ? upPos : downPos);
+				flip = 1 - flip;
+			}
+			break;
 		}
 		
 	}
