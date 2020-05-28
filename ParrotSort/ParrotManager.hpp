@@ -67,6 +67,7 @@ public:
 		for (auto& parrot : parrots)
 		{
 			parrot.changeTexture(rainbows);
+			parrot.changeSpeedRandom();
 		}
 	}
 

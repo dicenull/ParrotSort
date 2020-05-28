@@ -82,6 +82,11 @@ public:
         textures = newTex;
     }
 
+    void changeSpeedRandom()
+    {
+        counter = Counter(Random(6));
+    }
+
     void update()
     {
         if(isNormal && dangerSw.s() > 5)
