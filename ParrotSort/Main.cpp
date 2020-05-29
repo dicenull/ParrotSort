@@ -4,6 +4,12 @@
 #include "ParrotBuilder.hpp"
 #include "StageController.hpp"
 
+// TODO: 当たり判定を少し小さくしてコンテナに入れやすく
+// TODO: continueができるように
+// TODO: 得点が入った時に少し止める
+// TODO: ゲームオーバーの後、コンテナに残ったparrotを得点に追加
+// TODO: 上と下に扉を描画するようにする
+
 void Main()
 {
     // TODO: よりおおくのparrotを生成
