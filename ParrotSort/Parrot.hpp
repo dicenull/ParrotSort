@@ -149,6 +149,11 @@ public:
 
     void draw()
     {
+        if (textures.size() == 0)
+        {
+            return;
+        }
+
         counter.increment();
 
         if (counter.isRefresh())
