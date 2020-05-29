@@ -41,11 +41,10 @@ void Main()
         {
             stageCon.update();
 
-            bool wrong = false;
             int point = 0;
             for (auto& container : containers)
             {
-                wrong |= manager.checkArea(container);
+                bool wrong = manager.checkArea(container);
                 point += container.update();
 
                 if (wrong)
