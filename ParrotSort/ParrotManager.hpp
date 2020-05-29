@@ -47,7 +47,7 @@ public:
 		{
 			parrot.update();
 
-			if (!prev_hold && parrot.rect.leftClicked())
+			if (!prev_hold && parrot.drawingRect.leftClicked())
 			{
 				parrot.hold = true;
 				prev_hold = true;
@@ -78,23 +78,23 @@ public:
 		// ‚Ô‚Â‚©‚Á‚Ä‚¢‚½‚ç”½“]
 		for(auto& parrot : parrots)
 		{
-			if (area.top().intersects(parrot.rect)
-				|| area.bottom().intersects(parrot.rect))
+			if (area.top().intersects(parrot.drawingRect)
+				|| area.bottom().intersects(parrot.drawingRect))
 			{
 				parrot.flipY();
 			}
 
-			if (area.left().intersects(parrot.rect)
-				|| area.right().intersects(parrot.rect))
+			if (area.left().intersects(parrot.drawingRect)
+				|| area.right().intersects(parrot.drawingRect))
 			{
 				parrot.flipX();
 			}
 		}
 
-		// ’†‚Å˜b‚³‚ê‚½‚çŠi”[
+		// ’†‚Å—£‚³‚ê‚½‚çŠi”[
 		for (auto it = parrots.begin(); it != parrots.end(); ++it)
 		{
-			if (MouseL.up() && area.contains(it->rect))
+			if (MouseL.up() && area.contains(it->paddingRect()))
 			{
 				if (it->colorType != container.colorType)
 				{

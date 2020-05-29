@@ -50,14 +50,14 @@ public:
 		{
 			parrot.update();
 
-			if (area.top().intersects(parrot.rect)
-				|| area.bottom().intersects(parrot.rect))
+			if (area.top().intersects(parrot.drawingRect)
+				|| area.bottom().intersects(parrot.drawingRect))
 			{
 				parrot.flipY();
 			}
 
-			if (area.left().intersects(parrot.rect)
-				|| area.right().intersects(parrot.rect))
+			if (area.left().intersects(parrot.drawingRect)
+				|| area.right().intersects(parrot.drawingRect))
 			{
 				parrot.flipX();
 			}

@@ -20,7 +20,7 @@ class Parrot
     bool isNormal = true;
 
 public:
-    RectF rect;
+    RectF drawingRect;
     bool hold = false;
     bool canHold = true;
     bool isBomb = false;
@@ -32,7 +32,7 @@ public:
     Parrot() : serial(serial_gen++) {}
 
     Parrot(Point pos, Array<Texture> textures, ParrotColor type)
-        : rect(RectF(pos, normalSize)),
+        : drawingRect(RectF(pos, normalSize)),
         textures(textures),
         colorType(type),
         serial(serial_gen++)
@@ -49,6 +49,11 @@ public:
         {
             tex.release();
         }
+    }
+
+    constexpr RectF paddingRect() const
+    {
+        return drawingRect.scaled(0.65);
     }
 
     bool operator==(const Parrot& obj)
@@ -69,7 +74,7 @@ public:
     void caught()
     {
         dangerSw.reset();
-        rect.setSize(normalSize);
+        drawingRect.setSize(normalSize);
 
         if (!isNormal)
         {
@@ -101,30 +106,30 @@ public:
 
         if (!isNormal)
         {
-            rect.setSize(normalSize + 30 * Periodic::Sine0_1(500ms));
+            drawingRect.setSize(normalSize + 30 * Periodic::Sine0_1(500ms));
         }
 
         if (canHold && hold)
         {
-            rect.pos = Cursor::Pos() - rect.size / 2;
+            drawingRect.pos = Cursor::Pos() - drawingRect.size / 2;
         }
         else
         {
-            rect.pos.moveBy(velocity * Scene::DeltaTime() * speed);
+            drawingRect.pos.moveBy(velocity * Scene::DeltaTime() * speed);
         }
 
-        bool isLeft = rect.tl().x <= 0,
-            isRight = rect.br().x >= Scene::Width(),
-            isTop = rect.tl().y <= 0,
-            isBottom = rect.br().y >= Scene::Height();
+        bool isLeft = drawingRect.tl().x <= 0,
+            isRight = drawingRect.br().x >= Scene::Width(),
+            isTop = drawingRect.tl().y <= 0,
+            isBottom = drawingRect.br().y >= Scene::Height();
 
         if (canHold && hold)
         {
-            if (isLeft) rect.pos.x = 1;
-            if (isTop) rect.pos.y = 1;
+            if (isLeft) drawingRect.pos.x = 1;
+            if (isTop) drawingRect.pos.y = 1;
 
-            if (isRight) rect.pos.x = Scene::Width() - rect.size.x - 1;
-            if (isBottom) rect.pos.y = Scene::Height() - rect.size.y - 1;
+            if (isRight) drawingRect.pos.x = Scene::Width() - drawingRect.size.x - 1;
+            if (isBottom) drawingRect.pos.y = Scene::Height() - drawingRect.size.y - 1;
         }
         else
         {
@@ -139,9 +144,7 @@ public:
             }
         }
 
-
-        // TODO: debug
-        rect.drawFrame();
+        paddingRect().drawFrame();
     }
 
     void draw()
@@ -153,6 +156,6 @@ public:
             index = (index + 1) % textures.size();
         }
 
-        rect(textures[index]).draw();
+        drawingRect(textures[index]).draw();
     }
 };
