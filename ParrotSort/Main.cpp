@@ -6,7 +6,6 @@
 
 // 1 TODO: continueができるように
 // 2 TODO: 得点が入った時に少し止める
-// 3 TODO: ゲームオーバーの後、コンテナに残ったparrotを得点に追加
 // 4 TODO: 上と下に扉を描画するようにする
 
 void Main()
@@ -65,6 +64,11 @@ void Main()
             if (stageCon.gameover)
             {
                 manager.gameover(builder.Default.parrotTextures);
+
+                for (auto& container : containers)
+                {
+                    sum += container.count();
+                }
             }
         }
 

@@ -32,6 +32,11 @@ public:
 		parrots.clear();
 	}
 
+	int count()
+	{
+		return parrots.size();
+	}
+
 	void draw()
 	{
 		area.draw(color);
