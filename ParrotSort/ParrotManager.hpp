@@ -47,7 +47,7 @@ public:
 		{
 			parrot.update();
 
-			if (!prev_hold && parrot.drawingRect.leftClicked())
+			if (!prev_hold && parrot.rect.leftClicked())
 			{
 				parrot.hold = true;
 				prev_hold = true;
@@ -78,14 +78,14 @@ public:
 		// ‚Ô‚Â‚©‚Á‚Ä‚¢‚½‚ç”½“]
 		for(auto& parrot : parrots)
 		{
-			if (area.top().intersects(parrot.drawingRect)
-				|| area.bottom().intersects(parrot.drawingRect))
+			if (area.top().intersects(parrot.rect)
+				|| area.bottom().intersects(parrot.rect))
 			{
 				parrot.flipY();
 			}
 
-			if (area.left().intersects(parrot.drawingRect)
-				|| area.right().intersects(parrot.drawingRect))
+			if (area.left().intersects(parrot.rect)
+				|| area.right().intersects(parrot.rect))
 			{
 				parrot.flipX();
 			}
