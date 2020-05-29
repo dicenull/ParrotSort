@@ -4,11 +4,10 @@
 #include "ParrotBuilder.hpp"
 #include "StageController.hpp"
 
-// TODO: 当たり判定を少し小さくしてコンテナに入れやすく
-// TODO: continueができるように
-// TODO: 得点が入った時に少し止める
-// TODO: ゲームオーバーの後、コンテナに残ったparrotを得点に追加
-// TODO: 上と下に扉を描画するようにする
+// 1 TODO: continueができるように
+// 2 TODO: 得点が入った時に少し止める
+// 3 TODO: ゲームオーバーの後、コンテナに残ったparrotを得点に追加
+// 4 TODO: 上と下に扉を描画するようにする
 
 void Main()
 {
@@ -22,8 +21,10 @@ void Main()
 
     const auto size = Size(200, 200);
     const auto padding = Point(10, 200);
-    ParrotContainer pink_container({ padding, size }, ParrotColor::Pink);
-    ParrotContainer black_container({ Point(Scene::Width() - padding.x - size.x, padding.y), size }, ParrotColor::Black);
+
+    Array<ParrotContainer> containers;
+    containers.push_back({ { padding, size }, ParrotColor::Pink });
+    containers.push_back({ { Point(Scene::Width() - padding.x - size.x, padding.y), size }, ParrotColor::Black });
 
     StageController stageCon{manager, builder};
 
@@ -31,7 +32,7 @@ void Main()
 
     while (System::Update())
     {
-        if (KeySpace.down())
+        if (!stageCon.isStart && KeySpace.down())
         {
             stageCon.start();
         }
@@ -41,18 +42,20 @@ void Main()
             stageCon.update();
 
             bool wrong = false;
-            wrong |= manager.checkArea(pink_container);
-            wrong |= manager.checkArea(black_container);
-            if (wrong)
-            {
-                stageCon.gameover = true;
-            }
-
-            stageCon.gameover |= manager.update();
-
             int point = 0;
-            point += pink_container.update();
-            point += black_container.update();
+            for (auto& container : containers)
+            {
+                wrong |= manager.checkArea(container);
+                point += container.update();
+
+                if (wrong)
+                {
+                    container.clear();
+                    stageCon.gameover = true;
+                }
+            }
+           
+            stageCon.gameover |= manager.update();
 
             if (point > 0)
             {
@@ -66,8 +69,10 @@ void Main()
             }
         }
 
-        pink_container.draw();
-        black_container.draw();
+        for (auto& container : containers)
+        {
+            container.draw();
+        }
         manager.draw();
 
         // 文字が後ろに隠れてしまうため、描画の後

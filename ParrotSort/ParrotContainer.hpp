@@ -27,6 +27,11 @@ public:
 		}
 	}
 
+	void clear()
+	{
+		parrots.clear();
+	}
+
 	void draw()
 	{
 		area.draw(color);
