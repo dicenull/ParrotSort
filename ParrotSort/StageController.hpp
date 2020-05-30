@@ -103,7 +103,7 @@ public:
 			}
 			break;
 		case 1:
-			if (waveSw.ms() > 2000)
+			if (waveSw.ms() > 2000 - (wave * 5))
 			{
 				generate(flip ? upPos : downPos);
 				flip = 1 - flip;
@@ -115,7 +115,7 @@ public:
 			}
 			break;
 		case 2:
-			if (waveSw.ms() > 2300)
+			if (waveSw.ms() > 3000)
 			{
 				auto& pos = flip ? upPos : downPos;
 				for (auto i : step(2))
@@ -131,10 +131,50 @@ public:
 			}
 			break;
 		case 3:
-			if (waveSw.ms() > 1000)
+			if (waveSw.ms() > 3000)
+			{
+				auto& pos = flip ? upPos : downPos;
+				for (auto i : step(flip ? 2 : 3))
+				{
+					generate(pos + Point(-100 + (i + 1) * 50, 0));
+				}
+				flip = 1 - flip;
+			}
+
+			if (wave > 20)
+			{
+				next();
+			}
+			break;
+		case 4:
+			if (waveSw.ms() > 3000)
+			{
+				for (auto i : step(2))
+				{
+					generate(upPos + Point(-100 + (i + 1) * 50, 0));
+				}
+				for (auto i : step(2))
+				{
+					generate(downPos + Point(-100 + (i + 1) * 50, 0));
+				}
+				flip = 1 - flip;
+			}
+
+			if (wave > 20)
+			{
+				next();
+			}
+			break;
+		case 5:
+			if (waveSw.ms() > 1000 - wave)
 			{
 				generate(flip ? upPos : downPos);
 				flip = 1 - flip;
+			}
+
+			if (wave > 20)
+			{
+				next();
 			}
 			break;
 		}

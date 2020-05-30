@@ -5,7 +5,7 @@ class ParrotContainer
 {
 	Color color;
 	Array<Parrot> parrots;
-	const int size = 5;
+	const int size = 20;
 
 public:
 	Rect area;
