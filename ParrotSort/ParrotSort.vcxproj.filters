@@ -403,5 +403,8 @@
     <ClInclude Include="StageController.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="SoundEffect.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
