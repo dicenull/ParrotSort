@@ -3,7 +3,7 @@
 
 class StageController
 {
-	Stopwatch sw;
+	Stopwatch waveSw, scoreSw;
 	int flip = 0;
 	int wave = 0;
 
@@ -12,25 +12,35 @@ class StageController
 
 	Point upPos, downPos;
 
+	bool isScoring = false;
+	int tempPoint = 0;
 public:
 	bool isStart = false;
 	bool gameover = false;
-
+	
 	int stage = 0;
 	int pointSum = 0;
+
+	constexpr bool inGame() { return isStart && !gameover && !isScoring; }
 
 public:
 	StageController(ParrotManager& manager, ParrotBuilder& builder) 
 		: manager(manager), builder(builder),
-		  upPos(Scene::Width() / 2, 150), downPos(Scene::Width() / 2, Scene::Height() - 150){ }
+		upPos(Scene::Width() / 2, 150), downPos(Scene::Width() / 2, Scene::Height() - 150),
+		waveSw(), scoreSw() { }
 
 	void start()
 	{
-		sw.start();
+		if (isStart)
+		{
+			return;
+		}
+
+		waveSw.start();
 		isStart = true;
 	}
 
-	void restart()
+	void reset()
 	{
 		manager.reset();
 		isStart = false;
@@ -38,7 +48,43 @@ public:
 		stage = 0;
 		wave = 0;
 		pointSum = 0;
-		sw.reset();
+		waveSw.reset();
+	}
+
+	void scoring()
+	{
+		if (!isScoring)
+		{
+			return;
+		}
+		Print << U"score";
+
+		if (scoreSw.ms() > 250)
+		{
+			Print << tempPoint;
+			pointSum++;
+			tempPoint--;
+			scoreSw.restart();
+		}
+
+		if (tempPoint <= 0)
+		{
+			isScoring = false;
+			scoreSw.reset();
+		}
+	}
+
+	void setScoring(int point)
+	{
+		tempPoint = point;
+		isScoring = true;
+		scoreSw.start();
+	}
+
+	void restart()
+	{
+		reset();
+		start();
 	}
 
 	void update()
@@ -46,7 +92,7 @@ public:
 		switch (stage)
 		{
 		case 0:
-			if (sw.ms() > 2000)
+			if (waveSw.ms() > 2000)
 			{
 				generate(upPos);
 			}
@@ -57,7 +103,7 @@ public:
 			}
 			break;
 		case 1:
-			if (sw.ms() > 2000)
+			if (waveSw.ms() > 2000)
 			{
 				generate(flip ? upPos : downPos);
 				flip = 1 - flip;
@@ -69,7 +115,7 @@ public:
 			}
 			break;
 		case 2:
-			if (sw.ms() > 2300)
+			if (waveSw.ms() > 2300)
 			{
 				auto& pos = flip ? upPos : downPos;
 				for (auto i : step(2))
@@ -85,7 +131,7 @@ public:
 			}
 			break;
 		case 3:
-			if (sw.ms() > 1000)
+			if (waveSw.ms() > 1000)
 			{
 				generate(flip ? upPos : downPos);
 				flip = 1 - flip;
@@ -100,7 +146,7 @@ private:
 		manager.add(builder.generate((ParrotColor)Random(1), pos));
 
 		wave++;
-		sw.restart();
+		waveSw.restart();
 	}
 
 	void next()

@@ -80,5 +80,7 @@ public:
 	{
 		parrots.push_back(parrot);
 		parrots[parrots.size() - 1].canHold = false;
+
+		AudioAsset(U"ok").playOneShot();
 	}
 };

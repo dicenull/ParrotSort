@@ -3,19 +3,25 @@
 #include "ParrotManager.hpp"
 #include "ParrotBuilder.hpp"
 #include "StageController.hpp"
+#include "SoundEffect.hpp"
 
-// 2 TODO: 得点が入った時に少し止める
-// 4 TODO: 上と下に扉を描画するようにする
+// TODO: 得点が入った時に少し止める
+// TODO: 上と下に扉を描画するようにする
+// TODO: SEの追加 OK, Oh... 
 
 void Main()
 {
+    AudioAsset::Register(U"ok", U"se/OK.mp3");
+    AudioAsset::Register(U"oh", U"se/Oh.mp3");
+
+    Effect effects;
+
     // TODO: よりおおくのparrotを生成
     ParrotManager manager{};
     auto builder = ParrotBuilder();
     
     Scene::SetBackground(Palette::Gray);
 
-    int sum = 0;
     const auto size = Size(200, 200);
     const auto padding = Point(10, 200);
 
@@ -30,12 +36,16 @@ void Main()
     while (System::Update())
     {
         // 更新
-        if (!stageCon.isStart && KeySpace.down())
+        effects.update();
+
+        if (KeyEnter.down())
         {
             stageCon.start();
         }
 
-        if (stageCon.isStart && !stageCon.gameover)
+        stageCon.scoring();
+
+        if (stageCon.inGame())
         {
             stageCon.update();
 
@@ -57,7 +67,11 @@ void Main()
             if (point > 0)
             {
                 // TODO: 得点追加のアクション
-                sum += point;
+                for (auto i : step(point))
+                {
+                    effects.add<SE>(AudioAsset(U"ok"), Random());
+                }
+                stageCon.setScoring(point);
             }
 
             if (stageCon.gameover)
@@ -66,8 +80,10 @@ void Main()
 
                 for (auto& container : containers)
                 {
-                    sum += container.count();
+                    stageCon.pointSum += container.count();
                 }
+
+                AudioAsset(U"oh").playOneShot();
             }
         }
 
@@ -79,11 +95,11 @@ void Main()
         manager.draw();
 
         // 文字が後ろに隠れてしまうため、後に描画
-        statFont(U"Point: ", sum).draw(Vec2::Zero());
+        statFont(U"Point: ", stageCon.pointSum).draw(Vec2::Zero());
 
         if (stageCon.gameover)
         {
-            mainFont(U"Game Over!!").drawAt(Scene::CenterF());
+            mainFont(U"Game Over!!\n[Enter] to restart!").drawAt(Scene::CenterF());
 
             if (KeyEnter.down())
             {
@@ -94,7 +110,7 @@ void Main()
 
         if (!stageCon.isStart)
         {
-            mainFont(U"Press [Space] to start!!").drawAt(Scene::CenterF());
+            mainFont(U"Press [Enter] to start!!").drawAt(Scene::CenterF());
         }
     }
 }
