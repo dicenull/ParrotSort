@@ -5,7 +5,7 @@ class StageController
 {
 	Stopwatch sw;
 	int flip = 0;
-	int count = 0;
+	int wave = 0;
 
 	ParrotManager& manager;
 	ParrotBuilder& builder;
@@ -17,6 +17,7 @@ public:
 	bool gameover = false;
 
 	int stage = 0;
+	int pointSum = 0;
 
 public:
 	StageController(ParrotManager& manager, ParrotBuilder& builder) 
@@ -29,6 +30,17 @@ public:
 		isStart = true;
 	}
 
+	void restart()
+	{
+		manager.reset();
+		isStart = false;
+		gameover = false;
+		stage = 0;
+		wave = 0;
+		pointSum = 0;
+		sw.reset();
+	}
+
 	void update()
 	{
 		switch (stage)
@@ -39,7 +51,7 @@ public:
 				generate(upPos);
 			}
 
-			if (count > 15)
+			if (wave > 15)
 			{
 				next();
 			}
@@ -51,7 +63,7 @@ public:
 				flip = 1 - flip;
 			}
 
-			if (count > 20)
+			if (wave > 20)
 			{
 				next();
 			}
@@ -67,7 +79,7 @@ public:
 				flip = 1 - flip;
 			}
 
-			if (count > 20)
+			if (wave > 20)
 			{
 				next();
 			}
@@ -87,13 +99,13 @@ private:
 	{
 		manager.add(builder.generate((ParrotColor)Random(1), pos));
 
-		count++;
+		wave++;
 		sw.restart();
 	}
 
 	void next()
 	{
 		stage++;
-		count = 0;
+		wave = 0;
 	}
 };

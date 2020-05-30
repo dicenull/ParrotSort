@@ -8,7 +8,6 @@
 class ParrotManager
 {
 	Array<Parrot> parrots;
-	const Font font{ 16 };
 	
 	bool prev_hold = false;
 
@@ -23,6 +22,12 @@ class ParrotManager
 	}
 
 public:
+	void reset()
+	{
+		parrots.clear();
+		prev_hold = false;
+	}
+
 	void add(Parrot parrot)
 	{
 		parrots.push_back(parrot);

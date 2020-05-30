@@ -4,7 +4,6 @@
 #include "ParrotBuilder.hpp"
 #include "StageController.hpp"
 
-// 1 TODO: continueができるように
 // 2 TODO: 得点が入った時に少し止める
 // 4 TODO: 上と下に扉を描画するようにする
 
@@ -17,7 +16,6 @@ void Main()
     Scene::SetBackground(Palette::Gray);
 
     int sum = 0;
-
     const auto size = Size(200, 200);
     const auto padding = Point(10, 200);
 
@@ -31,6 +29,7 @@ void Main()
 
     while (System::Update())
     {
+        // 更新
         if (!stageCon.isStart && KeySpace.down())
         {
             stageCon.start();
@@ -72,13 +71,14 @@ void Main()
             }
         }
 
+        // 描画
         for (auto& container : containers)
         {
             container.draw();
         }
         manager.draw();
 
-        // 文字が後ろに隠れてしまうため、描画の後
+        // 文字が後ろに隠れてしまうため、後に描画
         statFont(U"Point: ", sum).draw(Vec2::Zero());
 
         if (stageCon.gameover)
@@ -87,7 +87,8 @@ void Main()
 
             if (KeyEnter.down())
             {
-                System::Exit();
+                containers.each([](ParrotContainer& con) {con.clear(); });
+                stageCon.restart();
             }
         }
 
