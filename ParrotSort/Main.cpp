@@ -6,7 +6,6 @@
 #include "SoundEffect.hpp"
 
 // TODO: 上と下に扉を描画するようにする
-// TODO: 中央側に動くように出現させる
 
 void Main()
 {

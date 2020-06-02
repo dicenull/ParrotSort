@@ -78,6 +78,26 @@ public:
         velocity.x *= -1;
     }
 
+    void lookUp()
+    {
+        velocity.y = -Math::Abs(velocity.y);
+    }
+
+    void lookDown()
+    {
+        velocity.y = Math::Abs(velocity.y);
+    }
+
+    void lookLeft()
+    {
+        velocity.x = -Math::Abs(velocity.x);
+    }
+
+    void lookRight()
+    {
+        velocity.x = Math::Abs(velocity.x);
+    }
+
     void caught()
     {
         dangerSw.reset();

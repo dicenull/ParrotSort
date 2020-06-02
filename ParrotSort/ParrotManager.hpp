@@ -99,16 +99,33 @@ public:
 		// ‚Ô‚Â‚©‚Á‚Ä‚¢‚½‚ç”½“]
 		for(auto& parrot : parrots)
 		{
-			if (area.top().intersects(parrot.rect)
-				|| area.bottom().intersects(parrot.rect))
+			if (parrot.hold)
 			{
-				parrot.flipY();
+				continue;
 			}
 
-			if (area.left().intersects(parrot.rect)
-				|| area.right().intersects(parrot.rect))
+			if(area.contains(parrot.rect.br()) 
+				|| area.contains(parrot.rect.bl()))
 			{
-				parrot.flipX();
+				parrot.lookUp();
+			}
+
+			if (area.contains(parrot.rect.bl())
+				|| area.contains(parrot.rect.tl()))
+			{
+				parrot.lookRight();
+			}
+			
+			if (area.contains(parrot.rect.tl())
+				|| area.contains(parrot.rect.tr()))
+			{
+				parrot.lookDown();
+			}
+
+			if (area.contains(parrot.rect.tr())
+				|| area.contains(parrot.rect.br()))
+			{
+				parrot.lookLeft();
 			}
 		}
 
