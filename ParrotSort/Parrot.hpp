@@ -60,7 +60,7 @@ public:
 
     constexpr RectF paddingRect() const
     {
-        return RectF(rect.pos, Vec2(0.65, 0.65) * normalSize);
+        return RectF(Arg::center = rect.center(), Vec2(0.65, 0.65) * normalSize);
     }
 
     bool operator==(const Parrot& obj)
@@ -181,7 +181,9 @@ public:
             }
         }
 
-        paddingRect().drawFrame();
+        // Debug
+        // paddingRect().drawFrame();
+        // rect.drawFrame();
     }
 
     void draw()
