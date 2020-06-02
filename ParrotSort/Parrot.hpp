@@ -37,8 +37,15 @@ public:
         colorType(type),
         serial(serial_gen++)
     {
-        auto rnd_rad = ToRadians(Random(360));
-        velocity = Vec2(Math::Cos(rnd_rad), Math::Sin(rnd_rad));
+        auto rndDeg = Random(180);
+        // ’†‰›‘¤‚ðŒü‚­•ûŒü‚ðÝ’è
+        if (pos.y * 2 > Scene::Height())
+        {
+            rndDeg += 180;
+        }
+
+        auto rad = ToRadians(rndDeg);
+        velocity = Vec2(Math::Cos(rad), Math::Sin(rad));
 
         dangerSw.start();
     }

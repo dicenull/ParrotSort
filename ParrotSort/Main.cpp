@@ -5,7 +5,6 @@
 #include "StageController.hpp"
 #include "SoundEffect.hpp"
 
-// TODO: 得点が入った時に少し止める
 // TODO: 上と下に扉を描画するようにする
 // TODO: 中央側に動くように出現させる
 
