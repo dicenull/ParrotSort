@@ -41,6 +41,22 @@ public:
 		}
 	}
 
+	void pause()
+	{
+		for (auto& parrot : parrots)
+		{
+			parrot.pause();
+		}
+	}
+
+	void resume()
+	{
+		for (auto& parrot : parrots)
+		{
+			parrot.resume();
+		}
+	}
+
 	bool update()
 	{
 		if (MouseL.up())

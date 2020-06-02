@@ -70,6 +70,7 @@ public:
 		if (pointer.size() <= 0)
 		{
 			isScoring = false;
+			manager.resume();
 			scoreSw.reset();
 		}
 	}
@@ -78,6 +79,7 @@ public:
 	{
 		pointer.add(parrots);
 		isScoring = true;
+		manager.pause();
 		scoreSw.start();
 	}
 

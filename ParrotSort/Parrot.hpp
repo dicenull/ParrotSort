@@ -99,6 +99,16 @@ public:
         counter = Counter(Random(5) + 1);
     }
 
+    void pause()
+    {
+        dangerSw.pause();
+    }
+
+    void resume()
+    {
+        dangerSw.resume();
+    }
+
     void update()
     {
         if(isNormal && dangerSw.s() > 5)
