@@ -7,7 +7,7 @@
 
 // TODO: 得点が入った時に少し止める
 // TODO: 上と下に扉を描画するようにする
-// TODO: SEの追加 OK, Oh... 
+// TODO: 中央側に動くように出現させる
 
 void Main()
 {
@@ -29,7 +29,9 @@ void Main()
     containers.push_back({ { padding, size }, ParrotColor::Pink });
     containers.push_back({ { Point(Scene::Width() - padding.x - size.x, padding.y), size }, ParrotColor::Black });
 
-    StageController stageCon{manager, builder};
+    ParrotToPointer pointer{};
+
+    StageController stageCon{manager, builder, pointer};
 
     Font mainFont{ 50 }, statFont{ 30 };
 
@@ -49,30 +51,30 @@ void Main()
         {
             stageCon.update();
 
-            int point = 0;
             for (auto& container : containers)
             {
                 bool wrong = manager.checkArea(container);
-                point += container.update();
+                int point = container.update();
 
                 if (wrong)
                 {
                     container.clear();
                     stageCon.gameover = true;
                 }
+
+                if (point > 0)
+                {
+                    stageCon.setScoring(container.shipParrot());
+
+                    // TODO: 得点追加のアクション
+                    for (auto i : step(point))
+                    {
+                        effects.add<SE>(AudioAsset(U"ok"), Random());
+                    }
+                }
             }
            
             stageCon.gameover |= manager.update();
-
-            if (point > 0)
-            {
-                // TODO: 得点追加のアクション
-                for (auto i : step(point))
-                {
-                    effects.add<SE>(AudioAsset(U"ok"), Random());
-                }
-                stageCon.setScoring(point);
-            }
 
             if (stageCon.gameover)
             {
@@ -93,6 +95,7 @@ void Main()
             container.draw();
         }
         manager.draw();
+        pointer.draw();
 
         // 文字が後ろに隠れてしまうため、後に描画
         statFont(U"Point: ", stageCon.pointSum).draw(Vec2::Zero());

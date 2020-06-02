@@ -1,5 +1,6 @@
 #pragma once
 #include <Siv3D.hpp>
+#include "ParrotToPointer.hpp"
 
 class StageController
 {
@@ -9,6 +10,7 @@ class StageController
 
 	ParrotManager& manager;
 	ParrotBuilder& builder;
+	ParrotToPointer& pointer;
 
 	Point upPos, downPos;
 
@@ -24,8 +26,8 @@ public:
 	constexpr bool inGame() { return isStart && !gameover && !isScoring; }
 
 public:
-	StageController(ParrotManager& manager, ParrotBuilder& builder) 
-		: manager(manager), builder(builder),
+	StageController(ParrotManager& manager, ParrotBuilder& builder, ParrotToPointer& pointer) 
+		: manager(manager), builder(builder), pointer(pointer),
 		upPos(Scene::Width() / 2, 150), downPos(Scene::Width() / 2, Scene::Height() - 150),
 		waveSw(), scoreSw() { }
 
@@ -57,26 +59,24 @@ public:
 		{
 			return;
 		}
-		Print << U"score";
 
 		if (scoreSw.ms() > 250)
 		{
-			Print << tempPoint;
 			pointSum++;
-			tempPoint--;
+			pointer.remove();
 			scoreSw.restart();
 		}
 
-		if (tempPoint <= 0)
+		if (pointer.size() <= 0)
 		{
 			isScoring = false;
 			scoreSw.reset();
 		}
 	}
 
-	void setScoring(int point)
+	void setScoring(const Array<Parrot>& parrots)
 	{
-		tempPoint = point;
+		pointer.add(parrots);
 		isScoring = true;
 		scoreSw.start();
 	}

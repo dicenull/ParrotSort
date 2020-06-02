@@ -27,6 +27,13 @@ public:
 		}
 	}
 
+	Array<Parrot> shipParrot()
+	{
+		Array<Parrot> shipP{ parrots };
+		clear();
+		return shipP;
+	}
+
 	void clear()
 	{
 		parrots.clear();
@@ -51,8 +58,6 @@ public:
 	{
 		if (parrots.size() >= size)
 		{
-			parrots.clear();
-
 			return size;
 		}
 

@@ -243,6 +243,7 @@
     <ClInclude Include="ParrotColor.h" />
     <ClInclude Include="ParrotContainer.hpp" />
     <ClInclude Include="ParrotData.hpp" />
+    <ClInclude Include="ParrotToPointer.hpp" />
     <ClInclude Include="SoundEffect.hpp" />
     <ClInclude Include="StageController.hpp" />
   </ItemGroup>
