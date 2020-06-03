@@ -158,7 +158,7 @@ public:
         bool isLeft = rect.tl().x <= 0,
             isRight = rect.br().x >= Scene::Width(),
             isTop = rect.tl().y <= Consts::minHeight,
-            isBottom = rect.br().y >= Scene::Height();
+            isBottom = rect.br().y >= Scene::Height() - Consts::minHeight;
 
         if (canHold && hold)
         {
@@ -166,7 +166,7 @@ public:
             if (isTop) rect.pos.y = Consts::minHeight;
 
             if (isRight) rect.pos.x = Scene::Width() - rect.size.x - 1;
-            if (isBottom) rect.pos.y = Scene::Height() - rect.size.y - 1;
+            if (isBottom) rect.pos.y = Scene::Height() - rect.size.y - 1 - Consts::minHeight;
         }
         else
         {
