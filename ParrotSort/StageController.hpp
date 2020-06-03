@@ -1,6 +1,7 @@
 #pragma once
 #include <Siv3D.hpp>
 #include "ParrotToPointer.hpp"
+#include "Consts.hpp"
 
 class StageController
 {
@@ -12,6 +13,7 @@ class StageController
 	ParrotBuilder& builder;
 	ParrotToPointer& pointer;
 
+	int originForBuild = Consts::minHeight + Consts::normalSize / 2;
 	Point upPos, downPos;
 
 	bool isScoring = false;
@@ -28,7 +30,7 @@ public:
 public:
 	StageController(ParrotManager& manager, ParrotBuilder& builder, ParrotToPointer& pointer) 
 		: manager(manager), builder(builder), pointer(pointer),
-		upPos(Scene::Width() / 2, 150), downPos(Scene::Width() / 2, Scene::Height() - 150),
+		upPos(Scene::Width() / 2, originForBuild), downPos(Scene::Width() / 2, Scene::Height() - originForBuild),
 		waveSw(), scoreSw() { }
 
 	void start()

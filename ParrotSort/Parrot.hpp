@@ -2,6 +2,7 @@
 #include "Counter.hpp"
 #include "ParrotData.hpp"
 #include "ParrotColor.h"
+#include "Consts.hpp"
 
 class Parrot
 {
@@ -9,7 +10,6 @@ class Parrot
 
     int index = 0;
     int speed = 50;
-    int normalSize = 55;
     
     Counter counter{ 6 };
     Array<Texture> textures;
@@ -32,7 +32,7 @@ public:
     Parrot() : serial(serial_gen++) {}
 
     Parrot(Point pos, Array<Texture> textures, ParrotColor type)
-        : rect(RectF(pos, normalSize)),
+        : rect(RectF(Arg::center = pos, Consts::normalSize)),
         textures(textures),
         colorType(type),
         serial(serial_gen++)
@@ -60,7 +60,7 @@ public:
 
     constexpr RectF paddingRect() const
     {
-        return RectF(Arg::center = rect.center(), Vec2(0.65, 0.65) * normalSize);
+        return RectF(Arg::center = rect.center(), Vec2(0.65, 0.65) * Consts::normalSize);
     }
 
     bool operator==(const Parrot& obj)
@@ -101,7 +101,7 @@ public:
     void caught()
     {
         dangerSw.reset();
-        rect.setSize(normalSize);
+        rect.setSize(Consts::normalSize);
 
         if (!isNormal)
         {
@@ -143,7 +143,7 @@ public:
 
         if (!isNormal)
         {
-            rect.setSize(normalSize + 30 * Periodic::Sine0_1(500ms));
+            rect.setSize(Consts::normalSize + 30 * Periodic::Sine0_1(500ms));
         }
 
         if (canHold && hold)
@@ -157,7 +157,7 @@ public:
 
         bool isLeft = rect.tl().x <= 0,
             isRight = rect.br().x >= Scene::Width(),
-            isTop = rect.tl().y <= 0,
+            isTop = rect.tl().y <= Consts::minHeight,
             isBottom = rect.br().y >= Scene::Height();
 
         if (canHold && hold)

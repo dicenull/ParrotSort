@@ -4,6 +4,7 @@
 #include "ParrotBuilder.hpp"
 #include "StageController.hpp"
 #include "SoundEffect.hpp"
+#include "Consts.hpp"
 
 // TODO: 上と下に扉を描画するようにする
 
@@ -14,9 +15,8 @@ void Main()
 
     Effect effects;
 
-    // TODO: よりおおくのparrotを生成
     ParrotManager manager{};
-    auto builder = ParrotBuilder();
+    ParrotBuilder builder{};
     
     Scene::SetBackground(Palette::Gray);
 
@@ -94,6 +94,7 @@ void Main()
         }
         manager.draw();
         pointer.draw();
+        Line(Point(0, Consts::minHeight), Point(Scene::Width(), Consts::minHeight)).draw(2.5);
 
         // 文字が後ろに隠れてしまうため、後に描画
         statFont(U"Point: ", stageCon.pointSum).draw(Vec2::Zero());
