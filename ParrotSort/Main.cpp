@@ -6,8 +6,6 @@
 #include "SoundEffect.hpp"
 #include "Consts.hpp"
 
-// TODO: 上と下に扉を描画するようにする
-
 void Main()
 {
     AudioAsset::Register(U"ok", U"se/OK.mp3");
@@ -98,7 +96,7 @@ void Main()
         }
         manager.draw();
         pointer.draw();
-        divideLine.draw(2.5, Palette::Black);
+        divideLine.draw(3, Palette::Gold);
 
         // 文字が後ろに隠れてしまうため、後に描画
         statFont(U"Point: ", stageCon.pointSum).draw(Vec2::Zero());

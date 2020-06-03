@@ -47,10 +47,11 @@ public:
 	void draw()
 	{
 		area.draw(color);
+		area.drawFrame(1.0, Palette::Gold);
 
 		for (auto& parrot : parrots)
 		{
-			parrot.draw();	
+			parrot.draw();
 		}
 	}
 
