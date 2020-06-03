@@ -8,6 +8,9 @@
 
 void Main()
 {
+    Scene::SetBackground(Palette::Gray);
+    Window::SetTitle(U"ParrotSort");
+
     AudioAsset::Register(U"ok", U"se/OK.mp3");
     AudioAsset::Register(U"oh", U"se/Oh.mp3");
 
@@ -20,7 +23,6 @@ void Main()
     ParrotManager manager{};
     ParrotBuilder builder{};
     
-    Scene::SetBackground(Palette::Gray);
     Rect ground{ Point(padding.x, Consts::minHeight), Scene::Size() - Size(padding.x, Consts::minHeight) * 2 };
     Line divideLine{ Point(0, Consts::minHeight), Point(Scene::Width(), Consts::minHeight) };
 

@@ -4,6 +4,8 @@
 #include "Consts.hpp"
 #include "StageData.hpp"
 #include "StageData.hpp"
+#include "ParrotManager.hpp"
+#include "ParrotBuilder.hpp"
 
 class StageController
 {
