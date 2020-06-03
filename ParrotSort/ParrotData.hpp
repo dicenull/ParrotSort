@@ -13,7 +13,7 @@ public:
     {
         for (auto i : step(length))
         {
-            parrotTextures.push_back(Texture(Format(path, i, U".png")));
+            parrotTextures.push_back(Texture(Resource(Format(path, i, U".png"))));
         }
     }
 

@@ -56,7 +56,41 @@ Resource(engine/soundfont/GMGSx.sf2.zstdcmp)
 // Siv3D App Resources (Your application resources here)
 //
 //////////////////////////////////////////////////////
+Resource(parrots/default/parrot0.png)
+Resource(parrots/default/parrot1.png)
+Resource(parrots/default/parrot2.png)
+Resource(parrots/default/parrot3.png)
+Resource(parrots/default/parrot4.png)
+Resource(parrots/default/parrot5.png)
+Resource(parrots/default/parrot6.png)
+Resource(parrots/default/parrot7.png)
+Resource(parrots/default/parrot8.png)
+Resource(parrots/default/parrot9.png)
 
+Resource(parrots/pink/pink0.png)
+Resource(parrots/pink/pink1.png)
+Resource(parrots/pink/pink2.png)
+Resource(parrots/pink/pink3.png)
+Resource(parrots/pink/pink4.png)
+Resource(parrots/pink/pink5.png)
+Resource(parrots/pink/pink6.png)
+Resource(parrots/pink/pink7.png)
+Resource(parrots/pink/pink8.png)
+Resource(parrots/pink/pink9.png)
+
+Resource(parrots/black/black0.png)
+Resource(parrots/black/black1.png)
+Resource(parrots/black/black2.png)
+Resource(parrots/black/black3.png)
+Resource(parrots/black/black4.png)
+Resource(parrots/black/black5.png)
+Resource(parrots/black/black6.png)
+Resource(parrots/black/black7.png)
+Resource(parrots/black/black8.png)
+Resource(parrots/black/black9.png)
+
+Resource(se/Oh.mp3)
+Resource(se/OK.mp3)
 
 
 /* 
