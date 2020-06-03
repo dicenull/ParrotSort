@@ -34,7 +34,8 @@ void Main()
 
     StageController stageCon{manager, builder, pointer};
 
-    Font mainFont{ 50 }, statFont{ 30 };
+    const Font mainFont{ 50, Typeface::Bold }, statFont{ 40, Typeface::Heavy };
+    
 
     while (System::Update())
     {
@@ -101,7 +102,7 @@ void Main()
         divideLine.draw(3, Palette::Gold);
 
         // 文字が後ろに隠れてしまうため、後に描画
-        statFont(U"Point: ", stageCon.pointSum).draw(Vec2::Zero());
+        statFont(stageCon.pointSum).drawAt(Point(Scene::Width(), statFont.fontSize()) / 2);
 
         if (stageCon.gameover)
         {
