@@ -143,7 +143,7 @@ public:
 
         if (!isNormal)
         {
-            rect.setSize(Consts::normalSize + 30 * Periodic::Sine0_1(500ms));
+            rect.setSize(Consts::normalSize + 20 + 10 * Periodic::Sine0_1(500ms));
         }
 
         if (canHold && hold)
