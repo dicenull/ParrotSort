@@ -74,6 +74,7 @@ public:
 			isScoring = false;
 			manager.resume();
 			scoreSw.reset();
+			waveSw.restart();
 		}
 	}
 
