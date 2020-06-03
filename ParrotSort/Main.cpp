@@ -13,15 +13,18 @@ void Main()
     AudioAsset::Register(U"ok", U"se/OK.mp3");
     AudioAsset::Register(U"oh", U"se/Oh.mp3");
 
+    const auto size = Size(200, 200);
+    const auto padding = Point(10, 200);
+
+
     Effect effects;
 
     ParrotManager manager{};
     ParrotBuilder builder{};
     
     Scene::SetBackground(Palette::Gray);
-
-    const auto size = Size(200, 200);
-    const auto padding = Point(10, 200);
+    Rect ground{ Point(padding.x, Consts::minHeight), Scene::Size() - Size(padding.x, Consts::minHeight) * 2 };
+    Line divideLine{ Point(0, Consts::minHeight), Point(Scene::Width(), Consts::minHeight) };
 
     Array<ParrotContainer> containers;
     containers.push_back({ { padding, size }, ParrotColor::Pink });
@@ -88,13 +91,14 @@ void Main()
         }
 
         // 描画
+        ground.draw(Palette::Lightgrey);
         for (auto& container : containers)
         {
             container.draw();
         }
         manager.draw();
         pointer.draw();
-        Line(Point(0, Consts::minHeight), Point(Scene::Width(), Consts::minHeight)).draw(2.5);
+        divideLine.draw(2.5, Palette::Black);
 
         // 文字が後ろに隠れてしまうため、後に描画
         statFont(U"Point: ", stageCon.pointSum).draw(Vec2::Zero());
