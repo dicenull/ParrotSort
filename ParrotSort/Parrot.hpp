@@ -163,7 +163,7 @@ public:
         if (canHold && hold)
         {
             if (isLeft) rect.pos.x = 1;
-            if (isTop) rect.pos.y = 1;
+            if (isTop) rect.pos.y = Consts::minHeight;
 
             if (isRight) rect.pos.x = Scene::Width() - rect.size.x - 1;
             if (isBottom) rect.pos.y = Scene::Height() - rect.size.y - 1;
