@@ -3,7 +3,7 @@
 時間がたつにつれて段々と難しくなっていきます。
 
 # ダウンロード
-- [ParrotSort v1.0](https://github.com/s1500729/ParrotSort/releases/download/v1.0/ParrotSort.zip) （動作環境: Windows 7 SP1 / 8.1 / 10）
+- [ParrotSort v1.0](https://github.com/s1500729/ParrotSort/releases/download/1.0/ParrotSort.zip) （動作環境: Windows 7 SP1 / 8.1 / 10）
 
 ![ParrotSort](screenshot.gif)
 
