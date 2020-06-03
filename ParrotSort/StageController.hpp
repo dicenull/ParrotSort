@@ -2,6 +2,8 @@
 #include <Siv3D.hpp>
 #include "ParrotToPointer.hpp"
 #include "Consts.hpp"
+#include "StageData.hpp"
+#include "StageData.hpp"
 
 class StageController
 {
@@ -18,6 +20,8 @@ class StageController
 
 	bool isScoring = false;
 	int tempPoint = 0;
+
+	Array<StageData> stages;
 public:
 	bool isStart = false;
 	bool gameover = false;
@@ -28,10 +32,18 @@ public:
 	constexpr bool inGame() { return isStart && !gameover && !isScoring; }
 
 public:
-	StageController(ParrotManager& manager, ParrotBuilder& builder, ParrotToPointer& pointer) 
+	StageController(ParrotManager& manager, ParrotBuilder& builder, ParrotToPointer& pointer)
 		: manager(manager), builder(builder), pointer(pointer),
 		upPos(Scene::Width() / 2, originForBuild), downPos(Scene::Width() / 2, Scene::Height() - originForBuild),
-		waveSw(), scoreSw() { }
+		waveSw(), scoreSw()
+	{
+		stages.push_back({ 2000, 25, 1, 0 });
+		stages.push_back({ 2000, 20, 1, 1 });
+		stages.push_back({ 3000, 20, 2, 2 });
+		stages.push_back({ 3000, 20, 2, 3 });
+		stages.push_back({ 500, 20, 1, 1 });
+		stages.push_back({ 3000, 10000, 2, 2, true });
+	}
 
 	void start()
 	{
@@ -94,94 +106,33 @@ public:
 
 	void update()
 	{
-		switch (stage)
+		auto current = stages[stage];
+
+		if (waveSw.ms() > current.timeMs)
 		{
-		case 0:
-			if (waveSw.ms() > 2000)
+			int up = current.upCount;
+			int down = current.downCount;
+
+			if (!current.isSame)
 			{
-				generate(upPos);
+				if (flip) up = 0;
+				else down = 0;
 			}
 
-			if (wave > 15)
+			for (auto i : step(up))
 			{
-				next();
+				generate(upPos + Point(-100 + (i + 1) * 50, 0));
 			}
-			break;
-		case 1:
-			if (waveSw.ms() > 2000 - (wave * 5))
+			for (auto i : step(down))
 			{
-				generate(flip ? upPos : downPos);
-				flip = 1 - flip;
+				generate(downPos + Point(-100 + (i + 1) * 50, 0));
 			}
+			flip = 1 - flip;
+		}
 
-			if (wave > 20)
-			{
-				next();
-			}
-			break;
-		case 2:
-			if (waveSw.ms() > 3000)
-			{
-				auto& pos = flip ? upPos : downPos;
-				for (auto i : step(2))
-				{
-					generate(pos + Point(-100 + (i + 1) * 50, 0));
-				}
-				flip = 1 - flip;
-			}
-
-			if (wave > 20)
-			{
-				next();
-			}
-			break;
-		case 3:
-			if (waveSw.ms() > 3000)
-			{
-				auto& pos = flip ? upPos : downPos;
-				for (auto i : step(flip ? 2 : 3))
-				{
-					generate(pos + Point(-100 + (i + 1) * 50, 0));
-				}
-				flip = 1 - flip;
-			}
-
-			if (wave > 20)
-			{
-				next();
-			}
-			break;
-		case 4:
-			if (waveSw.ms() > 3000)
-			{
-				for (auto i : step(2))
-				{
-					generate(upPos + Point(-100 + (i + 1) * 50, 0));
-				}
-				for (auto i : step(2))
-				{
-					generate(downPos + Point(-100 + (i + 1) * 50, 0));
-				}
-				flip = 1 - flip;
-			}
-
-			if (wave > 20)
-			{
-				next();
-			}
-			break;
-		case 5:
-			if (waveSw.ms() > 1000 - wave)
-			{
-				generate(flip ? upPos : downPos);
-				flip = 1 - flip;
-			}
-
-			if (wave > 20)
-			{
-				next();
-			}
-			break;
+		if (wave > current.waveCount)
+		{
+			next();
 		}
 		
 	}

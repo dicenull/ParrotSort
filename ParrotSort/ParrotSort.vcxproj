@@ -247,6 +247,7 @@
     <ClInclude Include="Consts.hpp" />
     <ClInclude Include="SoundEffect.hpp" />
     <ClInclude Include="StageController.hpp" />
+    <ClInclude Include="StageData.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
