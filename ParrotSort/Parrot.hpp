@@ -186,18 +186,21 @@ public:
         // rect.drawFrame();
     }
 
-    void draw()
+    void drawUpdate()
     {
-        if (textures.size() == 0)
-        {
-            return;
-        }
-
         counter.increment();
 
         if (counter.isRefresh())
         {
             index = (index + 1) % textures.size();
+        }
+    }
+
+    void draw() const
+    {
+        if (textures.size() == 0)
+        {
+            return;
         }
 
         rect(textures[index]).draw();

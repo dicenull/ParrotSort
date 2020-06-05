@@ -35,9 +35,15 @@ public:
 	
 	void draw()
 	{
-		for (auto& parrot : parrots)
+		// ”š”­‚µ‚»‚¤‚È‚à‚Ì‚Ù‚ÇŽè‘O‚É•`‰æ
+		for (auto& parrot : parrots.reversed())
 		{
 			parrot.draw();
+		}
+
+		for (auto& parrot : parrots)
+		{
+			parrot.drawUpdate();
 		}
 	}
 
