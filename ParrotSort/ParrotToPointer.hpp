@@ -32,7 +32,7 @@ public:
 	{
 		for (auto& parrot : parrots)
 		{
-			parrot.draw();
+			parrot.refreshDraw();
 		}
 	}
 };

@@ -196,6 +196,12 @@ public:
         }
     }
 
+    void refreshDraw()
+    {
+        drawUpdate();
+        draw();
+    }
+
     void draw() const
     {
         if (textures.size() == 0)
